@@ -390,6 +390,7 @@
         </div>
         <div id="onlineStatus" style="display:none;">
           <span id="roomCodeDisplay"></span>
+          <button class="btn-ghost" id="copyRoomBtn" style="padding:4px 10px; font-size:11px;">Copy Code</button>
           <span id="onlineConnStatus" style="color:var(--text-dim); font-size:12px;"></span>
         </div>
       </div>
@@ -1230,6 +1231,17 @@ document.getElementById('joinRoomBtn').addEventListener('click', () => {
   const code = document.getElementById('joinCodeInput').value.trim().toUpperCase();
   if(!code){ return; }
   connectToRoom(code, 'b');
+});
+
+document.getElementById('copyRoomBtn').addEventListener('click', () => {
+  if(roomCode){
+    navigator.clipboard.writeText(roomCode).then(() => {
+      const btn = document.getElementById('copyRoomBtn');
+      const original = btn.textContent;
+      btn.textContent = 'Copied!';
+      setTimeout(() => { btn.textContent = original; }, 1200);
+    });
+  }
 });
 
 // ---------- Controls ----------
