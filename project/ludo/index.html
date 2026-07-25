@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Infinity Ludo</title>
+<link rel="stylesheet" href="style.css">
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <div class="eyebrow">Daily Practice Arena</div>
+    <h1>Infinity<em>Ludo</em></h1>
+    <a class="backlink" href="../index.html">← Game Hub par wapas jao</a>
+  </header>
+
+  <div class="layout">
+    <div class="board-panel">
+      <div class="mode-row">
+        <button class="mode-btn active" id="lModeComputer">🤖 Vs Computer</button>
+        <button class="mode-btn" id="lModeFriend">👥 Vs Friends Online</button>
+      </div>
+      <div class="online-panel" id="lOnlinePanel" style="display:none;">
+        <div id="lOnlineSetup">
+          <button class="btn-primary" id="lCreateRoomBtn">Room Banao</button>
+          <input type="text" id="lJoinCodeInput" placeholder="Room code daalo" maxlength="6">
+          <button class="btn-ghost" id="lJoinRoomBtn">Join Karo</button>
+        </div>
+        <div id="lOnlineStatus" style="display:none;">
+          <span id="lRoomCodeDisplay"></span>
+          <button class="btn-ghost" id="lCopyRoomBtn" style="padding:4px 10px; font-size:11px;">Copy Code</button>
+          <span id="lOnlineConnStatus" style="color:var(--text-dim); font-size:12px;"></span>
+          <button class="btn-primary" id="lStartGameBtn" style="display:none; padding:5px 12px; font-size:12px;">Start Karo (khaali seat = Bot)</button>
+        </div>
+        <div class="seat-list" id="lSeatList"></div>
+      </div>
+
+      <div class="ludo-board" id="lBoard"></div>
+
+      <div class="status-row">
+        <div class="turn-pill">
+          <div class="turn-dot" id="lTurnDot"></div>
+          <span id="lTurnText">Red ki baari</span>
+        </div>
+        <div class="dice-area">
+          <div class="dice" id="lDice">-</div>
+          <button class="btn-primary" id="lRollBtn">Dice Roll Karo</button>
+        </div>
+        <div class="msg" id="lMsg"></div>
+        <button class="btn-ghost" id="lNewBtn">Naya Game</button>
+      </div>
+    </div>
+
+    <div class="side-panel">
+      <div>
+        <div class="panel-title">Players</div>
+        <div id="lPlayerList"></div>
+      </div>
+      <div>
+        <div class="panel-title">Rules</div>
+        <div class="rules-box">
+          • Yard se nikalne ke liye 6 chahiye<br>
+          • 6 pe extra roll milta hai (lagataar 3 six pe turn khatam)<br>
+          • Opponent ko capture karne pe extra roll<br>
+          • ★ wale squares "safe" hain — wahan capture nahi hota<br>
+          • Sabhi 4 tokens ko poora ghuma kar center tak lao — jeet jaoge!
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="../shared/config.js"></script>
+<script src="board.js"></script>
+<script src="rules.js"></script>
+<script src="multiplayer.js"></script>
+<script src="main.js"></script>
+</body>
+</html>
