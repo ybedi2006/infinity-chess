@@ -44,9 +44,16 @@ document.getElementById('lNewBtn').addEventListener('click', () => {
 function resetGame(){
   tokens = freshTokens();
   currentTurn='red'; gameOver=false; awaitingMove=false; diceValue=null; consecutiveSixes=0;
+  const overlay = document.getElementById('lWinOverlay');
+  if(overlay) overlay.classList.remove('show');
   renderTokens(); updateStatusUI(); setMsg('');
   maybeAutoAdvance();
 }
+
+document.getElementById('lWinCloseBtn').addEventListener('click', () => {
+  if(mode==='online' && sbChannel) sbChannel.send({type:'broadcast', event:'ludoReset', payload:{}});
+  resetGame();
+});
 
 tokens = freshTokens();
 buildBoardDOM();
