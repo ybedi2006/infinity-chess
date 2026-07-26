@@ -81,7 +81,7 @@ function buildBoardDOM(){
       if(yard && !(r===7 && c===7)){
         div.classList.add('yard-'+yard);
         if(yardSlotAt[key]){
-          const box = document.createElement('div'); box.className='token-dots'; div.appendChild(box);
+          const box = document.createElement('div'); box.className='token-dots yard-slot'; div.appendChild(box);
         }
       } else if(r===7 && c===7){
         div.classList.add('center');
@@ -147,3 +147,67 @@ function renderTokens(){
   });
 }
 
+
+// ---------- Dice pip rendering (real die face instead of a plain number) ----------
+const DICE_PIP_LAYOUTS = {
+  1: [5],
+  2: [1,9],
+  3: [1,5,9],
+  4: [1,3,7,9],
+  5: [1,3,5,7,9],
+  6: [1,3,4,6,7,9]
+};
+function renderDiceFace(value){
+  const dice = document.getElementById('lDice');
+  if(!dice) return;
+  dice.innerHTML = '';
+  if(!value){
+    const msg = document.createElement('div');
+    msg.className = 'pip-empty-msg';
+    msg.textContent = '-';
+    dice.appendChild(msg);
+    return;
+  }
+  const activeSet = new Set(DICE_PIP_LAYOUTS[value] || []);
+  for(let i=1;i<=9;i++){
+    const pip = document.createElement('div');
+    pip.className = 'pip' + (activeSet.has(i) ? ' on' : '');
+    dice.appendChild(pip);
+  }
+}
+
+// ---------- Win celebration ----------
+function celebrateWin(color){
+  const overlay = document.getElementById('lWinOverlay');
+  const title = document.getElementById('lWinTitle');
+  if(title) title.textContent = COLOR_LABEL[color] + ' Jeet Gaya!';
+  if(overlay) overlay.classList.add('show');
+  spawnConfetti(color);
+}
+
+function spawnConfetti(winColor){
+  const colors = [COLOR_HEX[winColor] || '#e6423a', '#ffc72c', '#2fa84f', '#2f7cd6', '#ffffff'];
+  const count = 90;
+  for(let i=0;i<count;i++){
+    const piece = document.createElement('div');
+    piece.className = 'confetti-piece';
+    piece.style.left = Math.random()*100 + 'vw';
+    piece.style.background = colors[Math.floor(Math.random()*colors.length)];
+    piece.style.animationDuration = (2 + Math.random()*1.8) + 's';
+    piece.style.animationDelay = (Math.random()*0.6) + 's';
+    piece.style.opacity = String(0.7 + Math.random()*0.3);
+    piece.style.transform = 'rotate(' + Math.floor(Math.random()*360) + 'deg)';
+    document.body.appendChild(piece);
+    setTimeout(() => piece.remove(), 5000);
+  }
+}
+
+// ---------- Dice roll animation ----------
+function animateDiceRoll(){
+  const dice = document.getElementById('lDice');
+  if(!dice) return;
+  dice.classList.remove('rolling');
+  // force reflow so the animation can restart even if triggered again quickly
+  void dice.offsetWidth;
+  dice.classList.add('rolling');
+}
