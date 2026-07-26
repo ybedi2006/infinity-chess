@@ -1,17 +1,19 @@
   :root{
-    --bg-deep:#12100e; --bg-panel:#1c1815;
-    --gold:#c9a24b; --gold-soft:#e4c878;
-    --ivory:#f4ecdf; --ember:#b0492f;
-    --text-dim:#a8998a; --border-soft:#3a322a;
-    --red:#e05252; --green:#4caf7d; --yellow:#e8c14c; --blue:#4f8fdb;
+    --bg-deep:#1b1240; --bg-panel:#241a56;
+    --gold:#ffd166; --gold-soft:#ffe08a;
+    --ivory:#fff8ec; --ember:#d62839;
+    --text-dim:#ccbdf0; --border-soft:#3d2d7a;
+    --red:#e6423a; --green:#2fa84f; --yellow:#ffc72c; --blue:#2f7cd6;
+    --red-dark:#b8271f; --green-dark:#1f7d38; --yellow-dark:#d99f00; --blue-dark:#1f5ba3;
     --font-display:'Georgia','Times New Roman',serif;
     --font-body:'Trebuchet MS','Segoe UI',sans-serif;
   }
   *{box-sizing:border-box;}
   body{
     margin:0; min-height:100vh; padding:24px 16px 60px;
-    background:radial-gradient(ellipse at 20% 0%, #241d16 0%, transparent 55%),
-               radial-gradient(ellipse at 85% 100%, #1a1410 0%, transparent 55%), var(--bg-deep);
+    background:radial-gradient(ellipse at 15% 0%, #3a2380 0%, transparent 55%),
+               radial-gradient(ellipse at 90% 100%, #1f2f7a 0%, transparent 55%),
+               linear-gradient(160deg, #241a56 0%, #1b1240 60%, #150c30 100%);
     color:var(--ivory); font-family:var(--font-body);
   }
   .wrap{max-width:920px; margin:0 auto;}
@@ -25,7 +27,7 @@
   .layout{display:grid; grid-template-columns:minmax(0,1fr) 260px; gap:18px; align-items:start;}
   @media (max-width:760px){ .layout{grid-template-columns:1fr;} }
 
-  .board-panel{background:var(--bg-panel); border:1px solid var(--border-soft); border-radius:14px; padding:16px; box-shadow:0 12px 30px rgba(0,0,0,.4);}
+  .board-panel{background:var(--bg-panel); border:2px solid var(--border-soft); border-radius:18px; padding:16px; box-shadow:0 16px 40px rgba(0,0,0,.5), 0 0 0 1px rgba(255,209,102,.08) inset;}
   .mode-row{display:flex; gap:8px; margin-bottom:12px;}
   .mode-btn{flex:1; background:var(--bg-deep); border:1px solid var(--border-soft); color:var(--text-dim); padding:9px 10px; border-radius:8px; font-size:13px; cursor:pointer;}
   .mode-btn.active{background:var(--ember); color:var(--ivory); border-color:var(--ember);}
@@ -44,8 +46,8 @@
 
   .ludo-board{
     display:grid; grid-template-columns:repeat(15,1fr); grid-template-rows:repeat(15,1fr);
-    width:100%; aspect-ratio:1; border:3px solid #8a5a34; border-radius:8px; overflow:hidden;
-    background:var(--ivory); transition:transform .4s ease;
+    width:100%; aspect-ratio:1; border:5px solid var(--gold); border-radius:12px; overflow:hidden;
+    background:#fffaf0; transition:transform .4s ease; box-shadow:0 10px 26px rgba(0,0,0,.5);
   }
   /* Rotates the whole board so the current player's yard always sits at bottom-left,
      facing them — like sitting at a physical Ludo board. */
@@ -53,38 +55,58 @@
   .ludo-board.rot-90{transform:rotate(90deg);}
   .ludo-board.rot-180{transform:rotate(180deg);}
   .ludo-board.rot-270{transform:rotate(270deg);}
-  .lcell{position:relative; display:flex; align-items:center; justify-content:center; border:1px solid rgba(0,0,0,.05); background:var(--ivory);}
-  .lcell.yard-red{background:rgba(224,82,82,.22);}
-  .lcell.yard-green{background:rgba(76,175,125,.22);}
-  .lcell.yard-yellow{background:rgba(232,193,76,.28);}
-  .lcell.yard-blue{background:rgba(79,143,219,.22);}
-  .lcell.home-red{background:rgba(224,82,82,.55);}
-  .lcell.home-green{background:rgba(76,175,125,.55);}
-  .lcell.home-yellow{background:rgba(232,193,76,.6);}
-  .lcell.home-blue{background:rgba(79,143,219,.55);}
-  .lcell.center{background:var(--gold-soft);}
-  .lcell.entry-red{background:var(--red);}
-  .lcell.entry-green{background:var(--green);}
-  .lcell.entry-yellow{background:var(--yellow);}
-  .lcell.entry-blue{background:var(--blue);}
-  .lcell.safe::after{content:'★'; position:absolute; font-size:60%; color:rgba(0,0,0,.35);}
+  .lcell{position:relative; display:flex; align-items:center; justify-content:center; border:1px solid rgba(0,0,0,.08); background:#fffaf0;}
+  .lcell.yard-red{background:var(--red);}
+  .lcell.yard-green{background:var(--green);}
+  .lcell.yard-yellow{background:var(--yellow);}
+  .lcell.yard-blue{background:var(--blue);}
+  .lcell.home-red{background:var(--red);}
+  .lcell.home-green{background:var(--green);}
+  .lcell.home-yellow{background:var(--yellow);}
+  .lcell.home-blue{background:var(--blue);}
+  .lcell.center{background:radial-gradient(circle, var(--gold-soft) 0%, var(--gold) 70%); font-size:70%;}
+  .lcell.center::after{content:'★'; color:#fff; text-shadow:0 1px 2px rgba(0,0,0,.4);}
+  .lcell.entry-red{background:var(--red-dark);}
+  .lcell.entry-green{background:var(--green-dark);}
+  .lcell.entry-yellow{background:var(--yellow-dark);}
+  .lcell.entry-blue{background:var(--blue-dark);}
+  .lcell.safe::after{content:'★'; position:absolute; font-size:55%; color:rgba(255,255,255,.85); text-shadow:0 1px 2px rgba(0,0,0,.35);}
+  .lcell:not(.safe).yard-red::after, .lcell:not(.safe).yard-green::after,
+  .lcell:not(.safe).yard-yellow::after, .lcell:not(.safe).yard-blue::after{content:'';}
+
   .token-dots{position:absolute; inset:0; display:flex; align-items:center; justify-content:center; flex-wrap:wrap; gap:1px;}
+  .token-dots.yard-slot{ inset:14%; background:#fff; border-radius:50%; box-shadow:inset 0 2px 5px rgba(0,0,0,.25), 0 1px 2px rgba(0,0,0,.15); }
   .token{
-    width:62%; height:62%; border-radius:50%; border:2px solid rgba(0,0,0,.45);
-    box-shadow:0 2px 4px rgba(0,0,0,.35); cursor:default;
+    width:62%; height:62%; border-radius:50%; border:2px solid rgba(0,0,0,.35);
+    box-shadow:0 3px 5px rgba(0,0,0,.4), inset 0 -4px 5px rgba(0,0,0,.3), inset 0 3px 4px rgba(255,255,255,.7);
+    cursor:default; position:relative;
   }
-  .lcell .token-dots.multi .token{width:44%; height:44%;}
-  .token.movable{cursor:pointer; outline:2px solid var(--gold-soft); animation:pulseGlow 1s infinite;}
-  @keyframes pulseGlow{0%,100%{box-shadow:0 0 4px 1px var(--gold-soft);} 50%{box-shadow:0 0 10px 4px var(--gold-soft);}}
+  .lcell .token-dots.multi .token{width:46%; height:46%;}
+  .token.movable{cursor:pointer; outline:3px solid var(--gold-soft); animation:pulseGlow 1s infinite;}
+  @keyframes pulseGlow{0%,100%{box-shadow:0 0 4px 1px var(--gold-soft);} 50%{box-shadow:0 0 12px 5px var(--gold-soft);}}
 
   .status-row{display:flex; justify-content:space-between; align-items:center; margin-top:14px; gap:10px; flex-wrap:wrap;}
   .turn-pill{display:flex; align-items:center; gap:8px; background:var(--bg-deep); border:1px solid var(--border-soft); padding:7px 14px; border-radius:999px; font-size:13px; color:var(--text-dim);}
-  .turn-dot{width:12px; height:12px; border-radius:50%;}
+  .turn-dot{width:12px; height:12px; border-radius:50%; box-shadow:0 0 6px currentColor;}
   .dice-area{display:flex; align-items:center; gap:10px;}
   .dice{
-    width:46px; height:46px; border-radius:10px; background:var(--ivory); color:#1a1410;
-    display:flex; align-items:center; justify-content:center; font-size:24px; font-weight:900;
+    width:52px; height:52px; border-radius:12px;
+    background:linear-gradient(145deg, #ffffff, #ece4d4);
     border:2px solid var(--gold);
+    box-shadow:0 4px 10px rgba(0,0,0,.4), inset 0 2px 2px rgba(255,255,255,.9);
+    transition:transform .15s;
+    display:grid; grid-template-columns:repeat(3,1fr); grid-template-rows:repeat(3,1fr);
+    gap:2px; padding:8px;
+  }
+  .dice .pip{ border-radius:50%; }
+  .dice .pip.on{ background:#1a1410; }
+  .dice .pip-empty-msg{ grid-column:1/-1; grid-row:1/-1; display:flex; align-items:center; justify-content:center; color:#1a1410; font-weight:900; font-size:22px; }
+  .dice.rolling{animation:diceRoll .5s ease;}
+  @keyframes diceRoll{
+    0%{transform:rotate(0deg) scale(1);}
+    30%{transform:rotate(120deg) scale(1.15);}
+    60%{transform:rotate(240deg) scale(0.9);}
+    100%{transform:rotate(360deg) scale(1);}
   }
   .msg{font-size:13px; color:var(--gold-soft); min-height:18px;}
 
@@ -94,3 +116,28 @@
   .player-row .dot{width:12px; height:12px; border-radius:50%; flex-shrink:0;}
   .player-row.current{color:var(--gold-soft); font-weight:700;}
   .rules-box{background:var(--bg-deep); border-radius:8px; padding:10px 12px; font-size:12px; color:var(--text-dim); line-height:1.6; border:1px solid var(--border-soft);}
+
+  /* ---------- Win celebration ---------- */
+  .win-overlay{
+    position:fixed; inset:0; display:none; align-items:center; justify-content:center;
+    background:rgba(10,8,6,.72); z-index:200; backdrop-filter:blur(2px);
+  }
+  .win-overlay.show{display:flex;}
+  .win-card{
+    background:var(--bg-panel); border:2px solid var(--gold); border-radius:18px;
+    padding:36px 44px; text-align:center; box-shadow:0 20px 60px rgba(0,0,0,.6);
+    animation:winPop .45s cubic-bezier(.34,1.56,.64,1);
+  }
+  @keyframes winPop{0%{transform:scale(.6); opacity:0;} 100%{transform:scale(1); opacity:1;}}
+  .win-card .trophy{font-size:56px; margin-bottom:8px;}
+  .win-card h2{font-family:var(--font-display); font-size:28px; margin:0 0 6px; color:var(--gold-soft);}
+  .win-card p{color:var(--text-dim); font-size:13px; margin:0 0 18px;}
+  .win-card button{margin-top:4px;}
+  .confetti-piece{
+    position:fixed; top:-20px; width:9px; height:16px; z-index:199; pointer-events:none;
+    animation-name:confettiFall; animation-timing-function:linear; animation-fill-mode:forwards;
+  }
+  @keyframes confettiFall{
+    0%{transform:translateY(0) rotate(0deg); opacity:1;}
+    100%{transform:translateY(105vh) rotate(540deg); opacity:.9;}
+  }
