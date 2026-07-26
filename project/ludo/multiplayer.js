@@ -32,6 +32,7 @@ function applyRemoteAction(payload){
     gameOver = true;
     setMsg('🎉 ' + COLOR_LABEL[color] + ' JEET GAYA!');
     updateStatusUI();
+    celebrateWin(color);
     return;
   }
   finishTurnSegment(bonus);
@@ -53,12 +54,14 @@ function connectToRoom(code, seatColor, creator){
     seats = msg.payload.seats;
     tokens = freshTokens();
     currentTurn='red'; gameOver=false; awaitingMove=false; diceValue=null; consecutiveSixes=0;
+    document.getElementById('lWinOverlay').classList.remove('show');
     renderTokens(); updateStatusUI(); setMsg('Game shuru!');
     maybeAutoAdvance();
   });
   sbChannel.on('broadcast', {event:'ludoReset'}, () => {
     tokens = freshTokens();
     currentTurn='red'; gameOver=false; awaitingMove=false; diceValue=null; consecutiveSixes=0;
+    document.getElementById('lWinOverlay').classList.remove('show');
     renderTokens(); updateStatusUI(); setMsg('');
   });
   sbChannel.on('presence', {event:'sync'}, () => {
