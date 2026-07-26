@@ -50,7 +50,7 @@ function updateStatusUI(){
   if(mode==='online' && currentTurn===myColor) suffix=' (Aap)';
   if(mode==='computer' && currentTurn==='red') suffix=' (Aap)';
   document.getElementById('lTurnText').textContent = COLOR_LABEL[currentTurn] + ' ki baari' + suffix;
-  document.getElementById('lDice').textContent = diceValue || '-';
+  renderDiceFace(diceValue);
   document.getElementById('lRollBtn').style.display = (canControl(currentTurn) && !awaitingMove && !gameOver) ? 'inline-block' : 'none';
 
   const list = document.getElementById('lPlayerList');
@@ -74,6 +74,7 @@ function rollDice(){
 
 function processRoll(color, dice){
   diceValue = dice;
+  animateDiceRoll();
   if(dice === 6) consecutiveSixes++; else consecutiveSixes = 0;
   const threeInRow = (dice === 6 && consecutiveSixes >= 3);
   const legal = threeInRow ? [] : getLegalMoves(color, dice);
@@ -85,13 +86,30 @@ function processRoll(color, dice){
     return;
   }
 
+  if(seats[color] === 'bot'){
+    awaitingMove = true;
+    renderTokens();
+    updateStatusUI();
+    setMsg('Sochte hue...');
+    setTimeout(() => { doMove(color, pickBotMove(color, dice, legal), dice); }, 500);
+    return;
+  }
+
+  // For a human (or remote human) seat: only ask them to pick when there's a REAL choice.
+  // Rolling a 6 with two+ tokens still in the yard isn't a real choice — the tokens are
+  // interchangeable until they leave the yard — so just bring one out automatically.
+  const allInterchangeable = legal.every(i => tokens[color][i] === -1);
+  if(legal.length === 1 || allInterchangeable){
+    renderTokens();
+    updateStatusUI();
+    setMsg(legal.length === 1 ? 'Sirf ek hi chaal possible thi — apne aap chal gaya.' : 'Yard se token nikla — apne aap chal gaya.');
+    setTimeout(() => { doMove(color, legal[0], dice); }, 400);
+    return;
+  }
+
   awaitingMove = true;
   renderTokens();
   updateStatusUI();
-
-  if(seats[color] === 'bot'){
-    setTimeout(() => { doMove(color, pickBotMove(color, dice, legal), dice); }, 500);
-  }
 }
 
 function pickBotMove(color, dice, legal){
@@ -127,6 +145,7 @@ function doMove(color, tokenIndex, dice){
     gameOver = true;
     setMsg('🎉 ' + COLOR_LABEL[color] + ' JEET GAYA!');
     updateStatusUI();
+    celebrateWin(color);
     return;
   }
   finishTurnSegment(result.bonus);
