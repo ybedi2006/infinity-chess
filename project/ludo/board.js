@@ -20,11 +20,26 @@ const COLOR_HEX = { red:'#e05252', green:'#4caf7d', yellow:'#e8c14c', blue:'#4f8
 const COLOR_LABEL = { red:'Red', green:'Green', yellow:'Yellow', blue:'Blue' };
 // Board rotation needed so each color's yard visually lands at bottom-left (facing the player)
 const ROTATION_FOR_COLOR = { blue:0, yellow:90, green:180, red:270 };
+const CORNER_CYCLE = ['TL','TR','BR','BL'];
+const ORIGINAL_CORNER_INDEX = { red:0, green:1, yellow:2, blue:3 };
 function applyBoardOrientation(){
   const el = document.getElementById('lBoard');
   if(!el) return;
   el.classList.remove('rot-0','rot-90','rot-180','rot-270');
   el.classList.add('rot-' + ROTATION_FOR_COLOR[myColor]);
+  positionDiceIndicator();
+}
+// Moves the floating dice to whichever corner the CURRENT PLAYER's yard visually
+// sits at (after the board's own rotation for this viewer) — so the dice always
+// sits next to whoever's turn it is.
+function positionDiceIndicator(){
+  const el = document.getElementById('lDiceFloat');
+  if(!el) return;
+  const steps = (ROTATION_FOR_COLOR[myColor] / 90) % 4;
+  const origIndex = ORIGINAL_CORNER_INDEX[currentTurn];
+  const corner = CORNER_CYCLE[(origIndex + steps) % 4];
+  el.classList.remove('corner-TL','corner-TR','corner-BR','corner-BL');
+  el.classList.add('corner-' + corner);
 }
 const LAST_COMMON_STEP = 54;   // s=0..54 => on ring (55 cells)
 const FINISH_STEP = 61;        // s=55..60 => home column (6 cells); 61 = finished
