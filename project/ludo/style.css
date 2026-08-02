@@ -1,4 +1,4 @@
-  :root{
+:root{
     --bg-deep:#1b1240; --bg-panel:#241a56;
     --gold:#ffd166; --gold-soft:#ffe08a;
     --ivory:#fff8ec; --ember:#d62839;
@@ -55,6 +55,16 @@
   .ludo-board.rot-90{transform:rotate(90deg);}
   .ludo-board.rot-180{transform:rotate(180deg);}
   .ludo-board.rot-270{transform:rotate(270deg);}
+
+  .board-wrap{ position:relative; }
+  .dice-float{
+    position:absolute; z-index:5; padding:6px;
+    transition:top .45s ease, left .45s ease, right .45s ease, bottom .45s ease;
+  }
+  .dice-float.corner-TL{ top:6px; left:6px; }
+  .dice-float.corner-TR{ top:6px; right:6px; }
+  .dice-float.corner-BR{ bottom:6px; right:6px; }
+  .dice-float.corner-BL{ bottom:6px; left:6px; }
   .lcell{position:relative; display:flex; align-items:center; justify-content:center; border:1px solid rgba(0,0,0,.08); background:#fffaf0;}
   .lcell.yard-red{background:var(--red);}
   .lcell.yard-green{background:var(--green);}
