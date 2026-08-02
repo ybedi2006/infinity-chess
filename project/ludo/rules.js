@@ -51,6 +51,7 @@ function updateStatusUI(){
   if(mode==='computer' && currentTurn==='red') suffix=' (Aap)';
   document.getElementById('lTurnText').textContent = COLOR_LABEL[currentTurn] + ' ki baari' + suffix;
   renderDiceFace(diceValue);
+  positionDiceIndicator();
   document.getElementById('lRollBtn').style.display = (canControl(currentTurn) && !awaitingMove && !gameOver) ? 'inline-block' : 'none';
 
   const list = document.getElementById('lPlayerList');
@@ -172,4 +173,3 @@ function onTokenClick(color, idx){
   if(!canControl(currentTurn)) return;
   doMove(color, idx, diceValue);
 }
-
