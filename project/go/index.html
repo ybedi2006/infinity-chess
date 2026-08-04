@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Infinity Go</title>
+<meta name="description" content="Free online Go (Weiqi/Baduk) — play against a heuristic computer opponent or a friend live, on a 9x9, 13x13, or 19x19 board.">
+<link rel="stylesheet" href="style.css">
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js" defer></script>
+</head>
+<body>
+<main class="wrap">
+  <header>
+    <div class="eyebrow">Daily Practice Arena</div>
+    <h1>Infinity<em>Go</em></h1>
+    <a class="backlink" href="../index.html">← Game Hub par wapas jao</a>
+  </header>
+
+  <div class="layout">
+    <div class="board-panel">
+      <div class="mode-row">
+        <button class="mode-btn active" id="goModeComputer">🤖 Vs Computer</button>
+        <button class="mode-btn" id="goModeFriend">👥 Vs Friends Online</button>
+      </div>
+
+      <div class="size-row" id="goSizeRow">
+        <span class="size-label">Board size:</span>
+        <button class="size-btn active" data-size="9">9×9</button>
+        <button class="size-btn" data-size="13">13×13</button>
+        <button class="size-btn" data-size="19">19×19</button>
+      </div>
+
+      <div class="online-panel" id="goOnlinePanel" style="display:none;">
+        <div id="goOnlineSetup">
+          <button class="btn-primary" id="goCreateRoomBtn">Room Banao (Black)</button>
+          <input type="text" id="goJoinCodeInput" placeholder="Room code daalo" aria-label="Room code" maxlength="6">
+          <button class="btn-ghost" id="goJoinRoomBtn">Join Karo (White)</button>
+        </div>
+        <div id="goOnlineStatus" style="display:none;">
+          <span id="goRoomCodeDisplay"></span>
+          <button class="btn-ghost" id="goCopyRoomBtn" style="padding:4px 10px; font-size:11px;">Copy Code</button>
+          <span id="goOnlineConnStatus" style="color:var(--text-dim); font-size:12px;"></span>
+          <button class="btn-primary" id="goStartGameBtn" style="display:none; padding:5px 12px; font-size:12px;">Start Karo</button>
+        </div>
+      </div>
+
+      <div class="go-board-wrap" id="goBoardWrap"></div>
+
+      <div class="status-row">
+        <div class="turn-pill">
+          <div class="turn-dot" id="goTurnDot"></div>
+          <span id="goTurnText">Black ki baari (Aap)</span>
+        </div>
+        <div class="msg" id="goMsg"></div>
+        <div class="btn-group">
+          <button class="btn-ghost" id="goUndoBtn">↺ Undo</button>
+          <button class="btn-ghost" id="goPassBtn">Pass</button>
+          <button class="btn-ghost" id="goResignBtn">Resign</button>
+          <button class="btn-primary" id="goNewBtn">Naya Game</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-panel">
+      <div>
+        <div class="panel-title">Score Tracker</div>
+        <div class="score-row"><span class="stone-dot black-dot"></span> Black captures: <b id="goCapturedBlack">0</b></div>
+        <div class="score-row"><span class="stone-dot white-dot"></span> White captures: <b id="goCapturedWhite">0</b></div>
+        <div class="score-row" style="color:var(--text-dim); font-size:12px;">White ko +7.5 komi milta hai (pehle move ka advantage balance karne ke liye)</div>
+      </div>
+      <div>
+        <div class="panel-title">Rules</div>
+        <div class="rules-box">
+          • Bari-bari stone rakho — jis group ki koi "liberty" (khaali padosi point) na bache, wo capture ho jaata hai<br>
+          • Suicide move illegal hai (jab tak capture na ho)<br>
+          • "Ko" rule: turant wahi stone recapture nahi kar sakte<br>
+          • Dono pass karein to game khatam, area + territory se score hota hai
+        </div>
+      </div>
+      <div>
+        <div class="panel-title">Move List</div>
+        <div class="movelist" id="goMoveList"></div>
+      </div>
+    </div>
+  </div>
+</main>
+
+<div class="result-overlay" id="goResultOverlay">
+  <div class="result-card">
+    <div class="result-emoji">🏆</div>
+    <h2 id="goResultTitle">Black Jeeta!</h2>
+    <p id="goResultDetail"></p>
+    <button class="btn-primary" id="goResultCloseBtn">Theek Hai</button>
+  </div>
+</div>
+
+<script src="../shared/config.js" defer></script>
+<script src="board.js" defer></script>
+<script src="rules.js" defer></script>
+<script src="ai.js" defer></script>
+<script src="multiplayer.js" defer></script>
+<script src="main.js" defer></script>
+</body>
+</html>
